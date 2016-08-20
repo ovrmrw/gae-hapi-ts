@@ -1,0 +1,55 @@
+{
+  "name": "gae-hapi-ts",
+  "version": "1.0.0",
+  "description": "Hapi with TypeScript on Google App Engine",
+  "main": ".dest/index.js",
+  "scripts": {
+    "overwrite": "node lib/overwrite-modules.js",
+    "ts": "ts-babel-node --ignoreWarnings 2304 server.ts",
+    "tsc": "tsc --outDir .dest-tsc",
+    "tsc:w": "tsc --outDir .dest-tsc --watch",
+    "babel": "babel .dest-tsc --out-dir .dest --presets es2015 --no-comments",
+    "babel:w": "babel .dest-tsc --out-dir .dest --presets es2015 --no-comments --watch",
+    "build": "npm run tsc && npm run babel",
+    "build:w": "concurrently -k \"npm run tsc:w\" \"npm run babel:w\" ",
+    "start": "node .dest/server.js",
+    "deploy": "npm run build && gcloud app deploy --project node-hapi"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ovrmrw/gae-hapi-ts.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ovrmrw/gae-hapi-ts/issues"
+  },
+  "homepage": "https://github.com/ovrmrw/gae-hapi-ts#readme",
+  "dependencies": {
+    "babel-polyfill": "^6.13.0",
+    "boom": "^3.2.2",
+    "google-cloud": "^0.38.3",
+    "hapi": "^13.5.3",
+    "joi": "^9.0.4",
+    "lodash": "^4.15.0",
+    "node-uuid": "^1.4.7"
+  },
+  "devDependencies": {
+    "@types/boom": "0.0.30",
+    "@types/hapi": "^13.0.32",
+    "@types/joi": "^9.0.30",
+    "@types/lodash": "^4.14.32",
+    "@types/node": "^6.0.36",
+    "@types/node-uuid": "0.0.27",
+    "babel-cli": "^6.11.4",
+    "babel-preset-es2015": "^6.13.2",
+    "fs-extra": "^0.30.0",
+    "ts-babel-node": "^1.0.0",
+    "ts-node": "^0.9.3",
+    "typescript": "^2.0.0"
+  },
+  "engines": {
+    "node": "~6.3"
+  }
+}

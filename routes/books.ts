@@ -2,23 +2,34 @@ import Boom from 'boom';
 import uuid from 'node-uuid';
 import Joi from 'joi';
 import Hapi from 'hapi';
+import path from 'path';
+
+const gcloud = require('google-cloud');
+const ds = gcloud.datastore({
+  projectId: 'node-hapi'
+});
+
+const kind = 'Book';
+
 
 export function register(server: Hapi.Server, options, next) {
 
   server.route({
     method: 'GET',
     path: '/books',
-    handler: (request: Hapi.Request, reply: Hapi.IStrictReply<string>) => {
+    handler: (request: Hapi.Request, reply: Hapi.IReply) => {
+      const q = ds.createQuery([kind])
+        .limit(10)
+        .order('name')
+        .start();
 
-      // db.books.find((err, docs) => {
-
-      //     if (err) {
-      //         return reply(Boom.wrap(err, 404, 'Internal MongoDB error'));
-      //     }
-
-      //     reply(docs);
-      // });
-      reply('hello');
+      ds.runQuery(q, function (err, entities, nextQuery) {
+        if (err) {
+          return reply(Boom.wrap(err, 500, 'Internal error'))
+        }
+        console.log(entities);
+        reply(entities);
+      });
     }
   });
 
@@ -26,22 +37,15 @@ export function register(server: Hapi.Server, options, next) {
     method: 'GET',
     path: '/books/{id}',
     handler: (request: Hapi.Request, reply: Hapi.IReply) => {
-
-      // db.books.findOne({
-      //     _id: request.params.id
-      // }, (err, doc) => {
-
-      //     if (err) {
-      //         return reply(Boom.wrap(err, 404, 'Internal MongoDB error'));
-      //     }
-
-      //     if (!doc) {
-      //         return reply(Boom.notFound());
-      //     }
-
-      //     reply(doc);
-      // });
-      reply(request.params['id']);
+      const id: number = +request.params['id'];
+      const key = ds.key([kind, id]);
+      ds.get(key, function (err, entity) {
+        if (err) {
+          return reply(Boom.wrap(err, 500, 'Internal error'));
+        }
+        console.log(entity);
+        reply(entity);
+      });
     }
   });
 
@@ -49,28 +53,24 @@ export function register(server: Hapi.Server, options, next) {
     method: 'POST',
     path: '/books',
     handler: (request: Hapi.Request, reply: Hapi.IReply) => {
-
       const book = request.payload;
-
-      //Create an id
-      book._id = uuid.v1();
-
-      // db.books.save(book, (err, result) => {
-
-      //   if (err) {
-      //     return reply(Boom.wrap(err, 404, 'Internal MongoDB error'));
-      //   }
-
-      //   reply(book);
-      // });
-      reply(book);
+console.log(book);
+      ds.save({
+        key: ds.key(kind),
+        data: book
+      }, (err, result) => {
+        if (err) {
+          return reply(Boom.wrap(err, 500, 'Internal error'));
+        }
+        result.mutationResults.forEach(a => console.log(a));
+        reply(result);
+      });
     },
     config: {
       validate: {
         payload: {
-          title: Joi.string().min(10).max(50).required(),
-          author: Joi.string().min(10).max(50).required(),
-          isbn: Joi.number()
+          name: Joi.string().min(1).max(50).required(),
+          description: Joi.string().min(1).max(50).required()
         }
       }
     }

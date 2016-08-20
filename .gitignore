@@ -39,3 +39,6 @@ jspm_packages
 .dest*
 .dockerignore
 Dockerfile
+source-context.json
+source-contexts.json
+keyfile.json

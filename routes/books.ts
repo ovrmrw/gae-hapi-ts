@@ -6,7 +6,8 @@ import path from 'path';
 
 const gcloud = require('google-cloud');
 const ds = gcloud.datastore({
-  projectId: 'node-hapi'
+  projectId: 'node-hapi',
+  keyFilename: path.join(path.resolve(), 'keyfile.json')
 });
 
 const kind = 'Book';
@@ -54,7 +55,7 @@ export function register(server: Hapi.Server, options, next) {
     path: '/books',
     handler: (request: Hapi.Request, reply: Hapi.IReply) => {
       const book = request.payload;
-console.log(book);
+      console.log(book);
       ds.save({
         key: ds.key(kind),
         data: book

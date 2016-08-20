@@ -13,6 +13,10 @@ var _joi = require('joi');
 
 var _joi2 = _interopRequireDefault(_joi);
 
+var _path = require('path');
+
+var _path2 = _interopRequireDefault(_path);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 require('dotenv').load();
@@ -20,7 +24,7 @@ var DATASTORE_API_KEY = process.env.DATASTORE_API_KEY || '';
 var gcloud = require('google-cloud');
 var ds = gcloud.datastore({
     projectId: 'node-hapi',
-    key: DATASTORE_API_KEY
+    keyFilename: _path2.default.join(_path2.default.resolve(), 'keyfile.json')
 });
 var kind = 'Book';
 function register(server, options, next) {

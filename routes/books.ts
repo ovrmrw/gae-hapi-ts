@@ -11,7 +11,7 @@ const DATASTORE_API_KEY: string = process.env.DATASTORE_API_KEY || '';
 const gcloud = require('google-cloud');
 const ds = gcloud.datastore({
   projectId: 'node-hapi',
-  key: DATASTORE_API_KEY
+  keyFilename: path.join(path.resolve(), 'keyfile.json')
 });
 
 const kind = 'Book';

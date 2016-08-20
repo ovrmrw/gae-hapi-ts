@@ -4,10 +4,14 @@ import Joi from 'joi';
 import Hapi from 'hapi';
 import path from 'path';
 
+require('dotenv').load();
+
+const DATASTORE_API_KEY: string = process.env.DATASTORE_API_KEY || '';
+
 const gcloud = require('google-cloud');
 const ds = gcloud.datastore({
   projectId: 'node-hapi',
-  keyFilename: path.join(path.resolve(), 'keyfile.json')
+  key: DATASTORE_API_KEY
 });
 
 const kind = 'Book';

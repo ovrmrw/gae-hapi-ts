@@ -42,3 +42,4 @@ Dockerfile
 source-context.json
 source-contexts.json
 keyfile.json
+.env

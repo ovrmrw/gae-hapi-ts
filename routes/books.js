@@ -28,6 +28,13 @@ var kind = 'Book';
 function register(server, options, next) {
     server.route({
         method: 'GET',
+        path: '/test',
+        handler: function handler(request, reply) {
+            reply('test');
+        }
+    });
+    server.route({
+        method: 'GET',
         path: '/books',
         handler: function handler(request, reply) {
             var q = ds.createQuery([kind]).limit(10).order('name').start();

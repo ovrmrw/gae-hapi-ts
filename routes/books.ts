@@ -18,6 +18,14 @@ export function register(server: Hapi.Server, options, next) {
 
   server.route({
     method: 'GET',
+    path: '/test',
+    handler: (request: Hapi.Request, reply: Hapi.IReply) => {
+      reply('test');
+    }
+  });
+
+  server.route({
+    method: 'GET',
     path: '/books',
     handler: (request: Hapi.Request, reply: Hapi.IReply) => {
       const q = ds.createQuery([kind])

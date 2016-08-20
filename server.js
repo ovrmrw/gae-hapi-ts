@@ -11,7 +11,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var server = new _hapi2.default.Server();
 server.connection({
     host: '0.0.0.0',
-    port: process.env.PORT || 3000
+    port: process.env.PORT || 3000,
+    routes: {
+        cors: true
+    }
 });
 server.register([{
     register: require('./routes/books')

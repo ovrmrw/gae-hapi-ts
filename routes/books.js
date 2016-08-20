@@ -19,8 +19,6 @@ var _path2 = _interopRequireDefault(_path);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-require('dotenv').load();
-var DATASTORE_API_KEY = process.env.DATASTORE_API_KEY || '';
 var gcloud = require('google-cloud');
 var ds = gcloud.datastore({
     projectId: 'node-hapi',

@@ -13,7 +13,12 @@ server.connection({
     host: '0.0.0.0',
     port: process.env.PORT || 3000,
     routes: {
-        cors: true
+        cors: true,
+        validate: {
+            options: {
+                abortEarly: false
+            }
+        }
     }
 });
 server.register([{

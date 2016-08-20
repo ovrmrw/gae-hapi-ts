@@ -13,7 +13,8 @@
     "build": "npm run tsc && npm run babel",
     "build:w": "concurrently -k \"npm run tsc:w\" \"npm run babel:w\" ",
     "start": "node .dest/server.js",
-    "deploy": "npm run build && gcloud app deploy --project node-hapi"
+    "deploy": "npm run build && gcloud app deploy --project node-hapi",
+    "azure": "git push azure master"
   },
   "repository": {
     "type": "git",
@@ -50,6 +51,6 @@
     "typescript": "^2.0.0"
   },
   "engines": {
-    "node": "~6.3"
+    "node": "6.3"
   }
 }

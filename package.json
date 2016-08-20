@@ -2,7 +2,7 @@
   "name": "gae-hapi-ts",
   "version": "1.0.0",
   "description": "Hapi with TypeScript on Google App Engine",
-  "main": ".dest/index.js",
+  "main": "server.js",
   "scripts": {
     "overwrite": "node lib/overwrite-modules.js",
     "ts": "ts-babel-node --ignoreWarnings 2304 server.ts",

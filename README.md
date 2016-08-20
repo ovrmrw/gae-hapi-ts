@@ -12,10 +12,13 @@ $ npm install && npm run overwrite
 $ npm run ts
 ```
 
-### Deploy to Google App Engine
+### Deploy to Google Cloud Platform
 Change the ProjectID of `"deploy": "npm run build && gcloud app deploy --project {your-project-id}"` in `package.json` for your environment.
 ```
-$ npm run deploy
+$ npm run deploygcp
 ```
 
 ### Deploy to Azure App Service
+```
+$ npm run deployazure
+```

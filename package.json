@@ -8,13 +8,13 @@
     "ts": "ts-babel-node --ignoreWarnings 2304 server.ts",
     "tsc": "tsc --outDir .dest-tsc",
     "tsc:w": "tsc --outDir .dest-tsc --watch",
-    "babel": "babel .dest-tsc --out-dir .dest --presets es2015 --no-comments",
-    "babel:w": "babel .dest-tsc --out-dir .dest --presets es2015 --no-comments --watch",
+    "babel": "babel .dest-tsc --out-dir . --presets es2015 --no-comments",
+    "babel:w": "babel .dest-tsc --out-dir . --presets es2015 --no-comments --watch",
     "build": "npm run tsc && npm run babel",
     "build:w": "concurrently -k \"npm run tsc:w\" \"npm run babel:w\" ",
-    "start": "node .dest/server.js",
-    "deploy": "npm run build && gcloud app deploy --project node-hapi",
-    "azure": "git push azure master"
+    "start": "node server.js",
+    "deploygcp": "npm run build && gcloud app deploy --project node-hapi",
+    "deployazure": "git push azure master"
   },
   "repository": {
     "type": "git",

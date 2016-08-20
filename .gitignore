@@ -42,3 +42,5 @@ Dockerfile
 source-context.json
 source-contexts.json
 keyfile.json
+server.js
+routes/*.js

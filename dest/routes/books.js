@@ -66,30 +66,99 @@ function register(server, options, next) {
     });
     server.route({
         method: 'GET',
-        path: '/cloudant',
+        path: '/cloudant/{db}',
         handler: function handler(request, reply) {
             return __awaiter(_this, void 0, void 0, regeneratorRuntime.mark(function _callee() {
-                var result;
+                var db, result;
                 return regeneratorRuntime.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
                             case 0:
-                                _context.next = 2;
-                                return cc.searchDocument('mydb', 'mydbdoc', 'mydbsearch', 'テキスト');
+                                db = request.params['db'];
+                                _context.next = 3;
+                                return cc.searchDocument(db, 'mydbdoc', 'mydbsearch', 'テキスト');
 
-                            case 2:
+                            case 3:
                                 result = _context.sent;
 
                                 console.log(result);
                                 reply(result);
 
-                            case 5:
+                            case 6:
                             case 'end':
                                 return _context.stop();
                         }
                     }
                 }, _callee, this);
             }));
+        }
+    });
+    server.route({
+        method: 'GET',
+        path: '/cloudant/{db}/{id}',
+        handler: function handler(request, reply) {
+            return __awaiter(_this, void 0, void 0, regeneratorRuntime.mark(function _callee2() {
+                var db, id, result;
+                return regeneratorRuntime.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                db = request.params['db'];
+                                id = request.params['id'];
+                                _context2.next = 4;
+                                return cc.getDocument(db, id);
+
+                            case 4:
+                                result = _context2.sent;
+
+                                console.log(result);
+                                reply(result);
+
+                            case 7:
+                            case 'end':
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this);
+            }));
+        }
+    });
+    server.route({
+        method: 'POST',
+        path: '/cloudant/{db}',
+        handler: function handler(request, reply) {
+            return __awaiter(_this, void 0, void 0, regeneratorRuntime.mark(function _callee3() {
+                var db, data, result;
+                return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                    while (1) {
+                        switch (_context3.prev = _context3.next) {
+                            case 0:
+                                db = request.params['db'];
+                                data = request.payload;
+                                _context3.next = 4;
+                                return cc.insertDocument(db, data);
+
+                            case 4:
+                                result = _context3.sent;
+
+                                console.log(result);
+                                reply(result);
+
+                            case 7:
+                            case 'end':
+                                return _context3.stop();
+                        }
+                    }
+                }, _callee3, this);
+            }));
+        },
+        config: {
+            validate: {
+                payload: {
+                    name: _joi2.default.string().min(1).max(50).required(),
+                    crazy: _joi2.default.bool().required()
+                }
+            }
         }
     });
     server.route({

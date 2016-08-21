@@ -31,11 +31,44 @@ export function register(server: Hapi.Server, options, next) {
 
   server.route({
     method: 'GET',
-    path: '/cloudant',
+    path: '/cloudant/{db}',
     handler: async (request: Hapi.Request, reply: Hapi.IReply) => {
-      const result = await cc.searchDocument('mydb', 'mydbdoc', 'mydbsearch', 'テキスト');
+      const db: string = request.params['db'];
+      const result = await cc.searchDocument(db, 'mydbdoc', 'mydbsearch', 'テキスト');
       console.log(result);
       reply(result);
+    }
+  });
+
+  server.route({
+    method: 'GET',
+    path: '/cloudant/{db}/{id}',
+    handler: async (request: Hapi.Request, reply: Hapi.IReply) => {
+      const db: string = request.params['db'];
+      const id: string = request.params['id'];
+      const result = await cc.getDocument(db, id);
+      console.log(result);
+      reply(result);
+    }
+  })
+
+  server.route({
+    method: 'POST',
+    path: '/cloudant/{db}',
+    handler: async (request: Hapi.Request, reply: Hapi.IReply) => {
+      const db: string = request.params['db'];
+      const data = request.payload;
+      const result = await cc.insertDocument(db, data);
+      console.log(result);
+      reply(result);
+    },
+    config: {
+      validate: {
+        payload: {
+          name: Joi.string().min(1).max(50).required(),
+          crazy: Joi.bool().required()
+        }
+      }
     }
   });
 

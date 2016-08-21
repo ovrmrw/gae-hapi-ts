@@ -48,10 +48,11 @@ var __awaiter = undefined && undefined.__awaiter || function (thisArg, _argument
 
 var gcloud = require('google-cloud');
 var ds = gcloud.datastore({
-    projectId: 'node-hapi',
+    projectId: 'hapi-from-azure',
     keyFilename: _path2.default.join(_path2.default.resolve(), 'keyfile.json')
 });
 var kind = 'Book';
+console.log(_path2.default.join(_path2.default.resolve(), 'keyfile.json'));
 
 var cc = new _cloudant.CloudantController();
 function register(server, options, next) {

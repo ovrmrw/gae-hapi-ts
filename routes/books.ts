@@ -3,15 +3,20 @@ import uuid from 'node-uuid';
 import Joi from 'joi';
 import Hapi from 'hapi';
 import path from 'path';
+import { CloudantController, DocumentBase, SearchResult } from '../cloudant';
 
-
+//////////////////////////////////////////////////////////////
+// Google Cloud Datastore
 const gcloud = require('google-cloud');
 const ds = gcloud.datastore({
   projectId: 'node-hapi',
   keyFilename: path.join(path.resolve(), 'keyfile.json')
 });
-
 const kind = 'Book';
+
+//////////////////////////////////////////////////////////////
+// IBM Cloudant
+const cc = new CloudantController();
 
 
 export function register(server: Hapi.Server, options, next) {
@@ -20,7 +25,17 @@ export function register(server: Hapi.Server, options, next) {
     method: 'GET',
     path: '/test',
     handler: (request: Hapi.Request, reply: Hapi.IReply) => {
-      reply('test');
+      reply('test is ok.');
+    }
+  });
+
+  server.route({
+    method: 'GET',
+    path: '/cloudant',
+    handler: async (request: Hapi.Request, reply: Hapi.IReply) => {
+      const result = await cc.searchDocument('mydb', 'mydbdoc', 'mydbsearch', 'テキスト');
+      console.log(result);
+      reply(result);
     }
   });
 

@@ -17,7 +17,34 @@ var _path = require('path');
 
 var _path2 = _interopRequireDefault(_path);
 
+var _cloudant = require('../cloudant');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var __awaiter = undefined && undefined.__awaiter || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) {
+            try {
+                step(generator.next(value));
+            } catch (e) {
+                reject(e);
+            }
+        }
+        function rejected(value) {
+            try {
+                step(generator.throw(value));
+            } catch (e) {
+                reject(e);
+            }
+        }
+        function step(result) {
+            result.done ? resolve(result.value) : new P(function (resolve) {
+                resolve(result.value);
+            }).then(fulfilled, rejected);
+        }
+        step((generator = generator.apply(thisArg, _arguments)).next());
+    });
+};
 
 var gcloud = require('google-cloud');
 var ds = gcloud.datastore({
@@ -25,12 +52,44 @@ var ds = gcloud.datastore({
     keyFilename: _path2.default.join(_path2.default.resolve(), 'keyfile.json')
 });
 var kind = 'Book';
+
+var cc = new _cloudant.CloudantController();
 function register(server, options, next) {
+    var _this = this;
+
     server.route({
         method: 'GET',
         path: '/test',
         handler: function handler(request, reply) {
-            reply('test');
+            reply('test is ok.');
+        }
+    });
+    server.route({
+        method: 'GET',
+        path: '/cloudant',
+        handler: function handler(request, reply) {
+            return __awaiter(_this, void 0, void 0, regeneratorRuntime.mark(function _callee() {
+                var result;
+                return regeneratorRuntime.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                _context.next = 2;
+                                return cc.searchDocument('mydb', 'mydbdoc', 'mydbsearch', 'テキスト');
+
+                            case 2:
+                                result = _context.sent;
+
+                                console.log(result);
+                                reply(result);
+
+                            case 5:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this);
+            }));
         }
     });
     server.route({

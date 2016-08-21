@@ -10,7 +10,7 @@ import { CloudantController, DocumentBase, SearchResult } from '../cloudant';
 const gcloud = require('google-cloud');
 const ds = gcloud.datastore({
   projectId: 'hapi-from-azure',
-  keyFilename: path.join(path.resolve(), 'keyfile.json')
+  credentials: require(path.join(path.resolve(), 'keyfile.json'))
 });
 const kind = 'Book';
 

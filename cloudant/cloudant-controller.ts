@@ -1,7 +1,9 @@
 import lodash from 'lodash'
 const Cloudant = require('cloudant')
 
-require('dotenv').load()
+try {
+  require('dotenv').load()
+} catch (err) { }
 const account: string = process.env.CLOUDANT_USERNAME || ''
 const key: string = process.env.CLOUDANT_API_KEY || ''
 const password: string = process.env.CLOUDANT_API_PASSWORD || ''
@@ -10,7 +12,7 @@ const password: string = process.env.CLOUDANT_API_PASSWORD || ''
 export class CloudantController {
   cloudant: any;
 
-  constructor() {    
+  constructor() {
     this.cloudant = Cloudant({ account, key, password })
   }
 

@@ -16,7 +16,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Cloudant = require('cloudant');
-require('dotenv').load();
+try {
+    require('dotenv').load();
+} catch (err) {}
 var account = process.env.CLOUDANT_USERNAME || '';
 var key = process.env.CLOUDANT_API_KEY || '';
 var password = process.env.CLOUDANT_API_PASSWORD || '';
